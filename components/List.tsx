@@ -21,16 +21,23 @@ const List = ({
 	filterTodos,
 	activeFilter,
 }: ListPropTypes) => {
-	const [selctedFilter, setSelectedFilter] = useState("all");
+	const [selctedFilter, setSelectedFilter] = useState<string>();
 
 	useEffect(() => {
-		filterTodos(selctedFilter);
+		if (selctedFilter) {
+			filterTodos(selctedFilter);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selctedFilter]);
 
 	return (
-		<article className="w-full px-10 my-10 sm:px-0 sm:mx-auto bg-gray-800 rounded-lg">
-			<div className="flex items-center justify-between py-3 px-5 text-gray-400 border-b border-gray-700">
+		<article className="w-full px-10 mt-8 sm:px-0 sm:mx-auto bg-gray-800 rounded-lg">
+			<div
+				className={clsx(
+					"flex items-center justify-between py-3 px-5 text-gray-400  border-gray-700",
+					todos.length > 0 && "border-b"
+				)}
+			>
 				<span className="w-1/3 text-sm">{todos.length} items left</span>
 
 				<select
@@ -40,6 +47,9 @@ const List = ({
 					className="w-1/3 border bg-white text-gray-700 rounded px-1 py-1
 					 outline-none select"
 				>
+					<option className="py-1" disabled selected>
+						Filter Todos
+					</option>
 					<option className="py-1" value="all">
 						All
 					</option>
@@ -58,7 +68,7 @@ const List = ({
 				</button>
 			</div>
 
-			{todos.length &&
+			{todos.length > 0 &&
 				todos.map(({ id, title, completed }) => (
 					<ul
 						key={id}
@@ -74,7 +84,13 @@ const List = ({
 										onChange={() => completeTodo(id)}
 									/>
 								</label>
-								{title}
+								<span
+									className={clsx(
+										completed ? "line-through" : ""
+									)}
+								>
+									{title}
+								</span>
 							</div>
 						</li>
 						<button onClick={() => removeTodo(id)}>

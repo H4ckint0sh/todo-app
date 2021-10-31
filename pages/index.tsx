@@ -63,7 +63,7 @@ const Home: NextPage = () => {
 		<main className="w-full sm:max-w-lg mx-auto">
 			<Logo />
 			<form
-				className="flex w-full items-center justify-center mt-10"
+				className="flex w-full items-center justify-center mt-4"
 				onSubmit={(e) => submit(e)}
 			>
 				<div className="relative w-full mx-auto flex items-center">
