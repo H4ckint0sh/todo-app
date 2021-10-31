@@ -88,6 +88,7 @@ const Home: NextPage = () => {
 						? current.context.filteredTodos
 						: []
 				}
+				activeFilter={current.context.aciveFilter}
 				removeTodo={removeTodo}
 				setTodos={setTodos}
 				completeTodo={completeTodo}

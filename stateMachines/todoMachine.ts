@@ -7,7 +7,7 @@ export interface Todo {
 }
 
 const todoMachine = createMachine<
-	{ todos: Todo[]; filteredTodos: Todo[] },
+	{ todos: Todo[]; filteredTodos: Todo[]; aciveFilter: string },
 	| { type: "FILTERING" }
 	| { type: "EDITING" }
 	| { type: "ADD"; title: string }
@@ -21,6 +21,7 @@ const todoMachine = createMachine<
 	context: {
 		todos: [],
 		filteredTodos: [],
+		aciveFilter: "",
 	},
 	states: {
 		editing: {
@@ -89,6 +90,7 @@ const todoMachine = createMachine<
 								return toBeFiltered;
 							}
 						},
+						aciveFilter: (_, { filter }) => filter,
 					}),
 				},
 			},

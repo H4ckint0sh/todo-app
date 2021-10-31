@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import cross from "../images/icon-cross.svg";
 import Image from "next/image";
 import { Todo } from "../stateMachines/todoMachine";
+import clsx from "clsx";
 
 type ListPropTypes = {
 	todos: Todo[];
@@ -9,6 +10,7 @@ type ListPropTypes = {
 	completeTodo: (id: number) => void;
 	setTodos: (todos: Todo[]) => void;
 	filterTodos: (filter: string) => void;
+	activeFilter: string;
 };
 
 const List = ({
@@ -17,10 +19,11 @@ const List = ({
 	completeTodo,
 	setTodos,
 	filterTodos,
+	activeFilter,
 }: ListPropTypes) => {
 	useEffect(() => {
-		console.log(todos);
-	}, [todos]);
+		console.log(activeFilter);
+	}, [activeFilter]);
 	return (
 		<article className="w-full px-10 my-10 sm:px-0 sm:mx-auto">
 			{todos.length !== 0 && (
@@ -49,7 +52,7 @@ const List = ({
 								<button onClick={() => removeTodo(id)}>
 									<Image
 										src={cross}
-										alt="                        "
+										alt="remove"
 										className="w-4 font-medium cross"
 									/>
 								</button>
@@ -60,7 +63,10 @@ const List = ({
 						<ul className="flex">
 							<li>
 								<button
-									className="text-sm mx-1"
+									className={clsx(
+										"text-sm mx-1",
+										activeFilter === "all" && "text-white"
+									)}
 									onClick={() => filterTodos("all")}
 								>
 									All
@@ -68,7 +74,11 @@ const List = ({
 							</li>
 							<li>
 								<button
-									className="text-sm mx-1"
+									className={clsx(
+										"text-sm mx-1",
+										activeFilter === "active" &&
+											"text-white"
+									)}
 									onClick={() => filterTodos("active")}
 								>
 									Active
@@ -76,7 +86,11 @@ const List = ({
 							</li>
 							<li>
 								<button
-									className="text-sm mx-1"
+									className={clsx(
+										"text-sm mx-1",
+										activeFilter === "completed" &&
+											"text-white"
+									)}
 									onClick={() => filterTodos("completed")}
 								>
 									Completed
