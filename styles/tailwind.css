@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: "Josefin Sans", sans-serif;
+	@apply bg-gray-900;
+}
+
+.list .cross {
+	opacity: 0;
+}
+
+.list:hover .cross {
+	opacity: 1;
+}
+
+.toggle-bg:after {
+	content: "";
+	@apply absolute left-0.5 top-0.5 bg-white border border-gray-300 h-5 w-5 rounded-full ring-0 transition;
+}
+
+input:checked + .toggle-bg:after {
+	transform: translateX(100%);
+	@apply border-white;
+}
+
+input:checked + .toggle-bg {
+	@apply bg-blue-600 border-blue-600;
+}
+
+@media (min-width: 1440px) {
+	.bg-image {
+		width: 1600px;
+	}
+}
