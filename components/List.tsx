@@ -21,93 +21,71 @@ const List = ({
 	filterTodos,
 	activeFilter,
 }: ListPropTypes) => {
+	const [selctedFilter, setSelectedFilter] = useState("all");
+
 	useEffect(() => {
-		console.log(activeFilter);
-	}, [activeFilter]);
+		filterTodos(selctedFilter);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selctedFilter]);
+
 	return (
-		<article className="w-full px-10 my-10 sm:px-0 sm:mx-auto">
-			{todos.length !== 0 && (
-				<ul className="bg-gray-800 rounded-lg">
-					{todos.length &&
-						todos.map(({ id, title, completed }) => (
-							<ul
-								key={id}
-								className="list flex items-center justify-between border-b border-gray-700 cursor-pointer py-3 pl-4 pr-4"
-							>
-								<li className="text-white">
-									<div className="flex items-center">
-										<label className="inline-flex items-center mr-4">
-											<input
-												type="checkbox"
-												className="form-checkbox h-5 w-5 text-orange-600 rounded-full"
-												checked={completed}
-												onChange={() =>
-													completeTodo(id)
-												}
-											/>
-										</label>
-										{title}
-									</div>
-								</li>
-								<button onClick={() => removeTodo(id)}>
-									<Image
-										src={cross}
-										alt="remove"
-										className="w-4 font-medium cross"
+		<article className="w-full px-10 my-10 sm:px-0 sm:mx-auto bg-gray-800 rounded-lg">
+			<div className="flex items-center justify-between py-3 px-5 text-gray-400 border-b border-gray-700">
+				<span className="w-1/3 text-sm">{todos.length} items left</span>
+
+				<select
+					id="select"
+					value={selctedFilter}
+					onChange={(e) => setSelectedFilter(e.target.value)}
+					className="w-1/3 border bg-white text-gray-700 rounded px-1 py-1
+					 outline-none select"
+				>
+					<option className="py-1" value="all">
+						All
+					</option>
+					<option className="py-1" value="active">
+						Active
+					</option>
+					<option className="py-1" value="completed">
+						Completed
+					</option>
+				</select>
+				<button
+					className="w-1/3 text-sm text-right"
+					onClick={() => setTodos(todos)}
+				>
+					Clear completed
+				</button>
+			</div>
+
+			{todos.length &&
+				todos.map(({ id, title, completed }) => (
+					<ul
+						key={id}
+						className="list bg-gray-800 rounded-lg flex items-center justify-between border-b border-gray-700 cursor-pointer py-3 pl-4 pr-4"
+					>
+						<li className="text-white">
+							<div className="flex items-center">
+								<label className="inline-flex items-center mr-4">
+									<input
+										type="checkbox"
+										className="form-checkbox h-5 w-5 text-orange-600 rounded-full"
+										checked={completed}
+										onChange={() => completeTodo(id)}
 									/>
-								</button>
-							</ul>
-						))}
-					<div className="flex items-center justify-between py-3 px-5 text-gray-400">
-						<p className="text-sm">{todos.length} items left</p>
-						<ul className="flex">
-							<li>
-								<button
-									className={clsx(
-										"text-sm mx-1",
-										activeFilter === "all" && "text-white"
-									)}
-									onClick={() => filterTodos("all")}
-								>
-									All
-								</button>
-							</li>
-							<li>
-								<button
-									className={clsx(
-										"text-sm mx-1",
-										activeFilter === "active" &&
-											"text-white"
-									)}
-									onClick={() => filterTodos("active")}
-								>
-									Active
-								</button>
-							</li>
-							<li>
-								<button
-									className={clsx(
-										"text-sm mx-1",
-										activeFilter === "completed" &&
-											"text-white"
-									)}
-									onClick={() => filterTodos("completed")}
-								>
-									Completed
-								</button>
-							</li>
-						</ul>
-						<div>
-							<button
-								className="text-sm"
-								onClick={() => setTodos(todos)}
-							>
-								Clear completed
-							</button>
-						</div>
-					</div>
-				</ul>
-			)}
+								</label>
+								{title}
+							</div>
+						</li>
+						<button onClick={() => removeTodo(id)}>
+							<Image
+								src={cross}
+								alt="remove"
+								className="w-4 font-medium cross"
+							/>
+						</button>
+					</ul>
+				))}
 		</article>
 	);
 };
